@@ -26,6 +26,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -117,9 +119,10 @@ public class HttpsPostThread extends AsyncTask<String, String, String> implement
             int sCode = response.getStatusLine().getStatusCode();
             if (sCode == HttpStatus.SC_OK) {
                 result = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);// 請求成功
-                Log.d("sheng050", String.valueOf(mWhat));
-                Log.d("sheng050",result);
-            } else {
+                Log.d("sheng050", "https response code : " + String.valueOf(mWhat));
+                Log.d("sheng050", "https post result : " + result);
+
+        } else {
                 result = "請求失敗" + sCode; // 請求失敗
                 // 404 - 未找到
                 Log.d("sheng050", String.valueOf(ERROR));
@@ -134,6 +137,24 @@ public class HttpsPostThread extends AsyncTask<String, String, String> implement
     }
     @Override
     protected void onPostExecute(String result) {
+
+        Log.d("sheng050","json decode result");
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(result);
+
+            JSONObject quizJSON = jsonObject.getJSONObject("quiz");
+            Log.d("sheng050", quizJSON.toString());
+            JSONObject sportJSON = quizJSON.getJSONObject("sport");
+            Log.d("sheng050", sportJSON.toString());
+
+            JSONObject postJSON = jsonObject.getJSONObject("post");
+            Log.d("sheng050", postJSON.toString());
+            Log.d("sheng050", postJSON.getString("username"));
+            Log.d("sheng050", postJSON.getString("password"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
