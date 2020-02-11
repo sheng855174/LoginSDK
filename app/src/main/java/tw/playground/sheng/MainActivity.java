@@ -2,7 +2,9 @@ package tw.playground.sheng;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,22 +24,28 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView_facebook;
     private EditText username;
     private EditText password;
+    private TextView register;
     private FloatingView floatingView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground_activity_main);
 
-        //設定隱藏標題
-        getSupportActionBar().hide();
-
         //綁定layout和程式邏輯變數
         login_button = findViewById(R.id.LoginButton);
+        register = findViewById(R.id.register);
         username = findViewById(R.id.Username);
         password = findViewById(R.id.Password);
         imageView_twitter = findViewById(R.id.imageView_twitter);
         imageView_instagram = findViewById(R.id.imageView_instagram);
         imageView_facebook = findViewById(R.id.imageView_facebook);
+
+        //處理圖形和版面
+        getSupportActionBar().hide(); //設定隱藏標題
+        register.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//設定register底線
+
 
         //設定監聽器
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 ILoginHttpsPostAdapter iLoginHttpsPostAdapter = new HttpsPostThread();
                 iLoginHttpsPostAdapter.login(username.getText().toString(), password.getText().toString());
                 finish();
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"this is register",Toast.LENGTH_LONG).show();
             }
         });
         imageView_twitter.setOnClickListener(new View.OnClickListener() {

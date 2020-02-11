@@ -25,6 +25,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpDateGenerator;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,8 +138,6 @@ public class HttpsPostThread extends AsyncTask<String, String, String> implement
     }
     @Override
     protected void onPostExecute(String result) {
-
-        Log.d("sheng050","json decode result");
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(result);
