@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import tw.playground.sheng.FloatingView.FloatingView;
+import tw.playground.sheng.FloatingView.FloatingViewConfig;
 import tw.playground.sheng.http.post.HttpsPostThread;
 import tw.playground.sheng.http.post.ILoginHttpsPostAdapter;
 
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView_facebook;
     private EditText username;
     private EditText password;
-
+    private FloatingView floatingView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,5 +67,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        FloatingViewConfig config = new FloatingViewConfig.Builder().build();
+        floatingView = new FloatingView(this, config);
+        floatingView.showOverlayActivity();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (floatingView != null) {
+            floatingView.hide();
+        }
     }
 }
