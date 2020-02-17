@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import tw.playground.sheng.R;
@@ -23,7 +24,7 @@ import static android.content.Context.WINDOW_SERVICE;
 /*
 * 用法，在想要的Activity加入
     private FloatingView floatingView;
-*   @Override
+    @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         FloatingViewConfig config = new FloatingViewConfig.Builder().build();
@@ -32,10 +33,18 @@ import static android.content.Context.WINDOW_SERVICE;
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    protected void onPause() {
+        super.onPause();
         if (floatingView != null) {
-           floatingView.hide();
+            floatingView.hide();
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (floatingView != null) {
+            floatingView.showOverlayActivity();
         }
     }
 * */
@@ -55,6 +64,7 @@ public class FloatingView {
     private LinearLayout mFloatLayout;
     private LinearLayout listview_right;
     private LinearLayout listview_left;
+    private ImageView floating_menu;
     private int x,y;
 
     private enum TYPE{
@@ -79,8 +89,10 @@ public class FloatingView {
                     }
                     //展開左邊
                     else {
+                        floating_menu.setVisibility(View.GONE);
                         listview_left.setVisibility(View.VISIBLE);
                         listview_right.setVisibility(View.GONE);
+                        floating_menu.setVisibility(View.VISIBLE);
                         isRight = true;
                     }
                 }
@@ -115,6 +127,8 @@ public class FloatingView {
         height = mFloatLayout.getMeasuredHeight();
         listview_left =  mFloatLayout.findViewById(R.id.listview_left);
         listview_right =  mFloatLayout.findViewById(R.id.listview_right);
+        floating_menu = mFloatLayout.findViewById(R.id.float_image);
+
         x = 0;
         y = 0;
     }
@@ -227,8 +241,8 @@ public class FloatingView {
                 break;
         }
         if (type == TYPE.OVERLAY_SYSTEM || type == TYPE.OVERLAY_ACTIVITY) {
-            mParamsWindowManager.x = x;
-            mParamsWindowManager.y = y;
+            mParamsWindowManager.x = 30;
+            mParamsWindowManager.y = 30;
         } else if (type == TYPE.OVERLAY_VIEWGROUP){
             int marginLeft = mFloatLayout.getLeft() + x;
             marginLeft = marginLeft < 0? 0: marginLeft;

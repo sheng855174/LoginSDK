@@ -2,8 +2,12 @@ package tw.playground.sheng;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import tw.playground.sheng.FloatingView.FloatingView;
 import tw.playground.sheng.FloatingView.FloatingViewConfig;
 import tw.playground.sheng.http.post.HttpsPostThread;
 import tw.playground.sheng.http.post.ILoginHttpsPostAdapter;
+import tw.playground.sheng.http.post.IRegHttpsPostAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private Button login_button;
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private TextView register;
+    private SharedPreferences sharedPreferences;
     private FloatingView floatingView;
 
 
@@ -42,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         imageView_instagram = findViewById(R.id.imageView_instagram);
         imageView_facebook = findViewById(R.id.imageView_facebook);
 
+        //導入帳號密碼
+        sharedPreferences = getApplicationContext().getSharedPreferences("tw.playground.sheng.LoginSDK", 0); // 0 - for private mode
+        username.setText(sharedPreferences.getString("username", null));
+        password.setText(sharedPreferences.getString("password", null));
+
         //處理圖形和版面
         getSupportActionBar().hide(); //設定隱藏標題
         register.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//設定register底線
@@ -51,15 +62,16 @@ public class MainActivity extends AppCompatActivity {
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ILoginHttpsPostAdapter iLoginHttpsPostAdapter = new HttpsPostThread();
-                iLoginHttpsPostAdapter.login(username.getText().toString(), password.getText().toString());
+                //登入
+                new Loginer(MainActivity.this, username.getText().toString(),password.getText().toString()).login();
                 finish();
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"this is register",Toast.LENGTH_LONG).show();
+                //註冊 | 快速註冊
+                new Register(MainActivity.this).register();
             }
         });
         imageView_twitter.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -92,10 +105,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    protected void onPause() {
+        super.onPause();
         if (floatingView != null) {
             floatingView.hide();
         }
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (floatingView != null) {
+            floatingView.showOverlayActivity();
+        }
+    }
+
 }

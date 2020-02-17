@@ -22,13 +22,15 @@
         android:layout_above="@+id/Password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
-        android:background="#11000000"
+        android:background="#1F300F00"
         android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
         android:textSize="16dp"
-        tools:ignore="UnknownId" />
+        tools:ignore="UnknownId"
+        android:maxLength="30"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@._"/>
 
     <EditText
         android:id="@+id/Password"
@@ -38,12 +40,14 @@
         android:layout_alignLeft="@+id/Username"
         android:layout_alignBottom="@+id/LoginButton"
         android:layout_marginBottom="130dp"
-        android:background="#11000000"
+        android:background="#1F300F00"
         android:drawableLeft="@drawable/ic_action_pass"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        tools:ignore="UnknownId" />
+        tools:ignore="UnknownId"
+        android:maxLength="15"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
     <Button
         android:id="@+id/LoginButton"
@@ -51,7 +55,7 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/register"
-        android:layout_marginBottom="31dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/login_button_rounde"
         android:text="Login"
         android:textColor="#fff"

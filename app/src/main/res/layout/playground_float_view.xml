@@ -13,16 +13,19 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/floating_view_list2" />
-
-        <ImageView
+            android:id="@+id/listview_left_list3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/floating_view_list3" />
 
         <ImageView
+            android:id="@+id/listview_left_list2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/floating_view_list2" />
+
+        <ImageView
+            android:id="@+id/listview_left_list1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/floating_view_list1" />
@@ -50,12 +53,12 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/floating_view_list3" />
+            android:src="@drawable/floating_view_list2" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/floating_view_list2" />
+            android:src="@drawable/floating_view_list3" />
     </LinearLayout>
 
 
